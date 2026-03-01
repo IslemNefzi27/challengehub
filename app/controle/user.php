@@ -56,7 +56,15 @@ public function deconnexion(){
 }
 }
 require('../models/usermodel.php');
-$pdo=new PDO('mysql:host=localhost;dbname=web','root','');
+$servername="localhost";
+    $username="root";
+    $password="";
+    $database="challengehub";
+try {
+    $pdo = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+} catch (Exception $e) {
+    die("Erreur : " . $e->getMessage());
+}
 $usercontroller=new usercontroller($pdo);
 if(isset($_GET['action'])){
     $action=$_GET['action'];
