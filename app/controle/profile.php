@@ -5,9 +5,10 @@ if(!isset($_SESSION['email'])){
     exit();
 }
 require_once '../models/usermodel.php';
-$pdo=new PDO('mysql:host=localhost;dbname=web','root','');
-$usercontroller=new usercontroller($pdo);
-$user=$usercontroller->usermodel->trouvepemail($_SESSION['email']);
+require_once '../models/modeladdchallenge.php';
+$pdo=new PDO('mysql:host=localhost;dbname=challengehub','root','');
+$usermodel=new usermodel($pdo);
+$user=$usermodel->trouvepemail($_SESSION['email']);
 if(!$user){
     die("Utilisateur non trouvé");
 }
@@ -36,21 +37,9 @@ if(!$user){
         <input type="submit" value="Modifier Profile" class="btn">
     </form>
     <h3>Vos Challenges</h3>
-</body>
-</html>
     <?php
-    require_once '../models/addchallenge.php';
-    $servername="localhost";
-    $username="root";
-    $password="";
-    $database="challengehub";
-    try {
-      $conn = new PDO("mysql:host=$servername;dbname=$database", $username,$password);
-    } catch (Exception $e) {
-      die("Erreur : " . $e->getMessage());
-    }
-    $challenge=new challange($conn);
-    $liste = $challenge->afficher_challenge($user['id']);
+    $challenge=new challange($pdo);
+    $liste = $challenge->afficher_challenge_supp($user['id']);
     foreach ($liste as $ch) {   
         echo "<div class='challenge'>";
         echo "<h4>" . htmlspecialchars($ch['title']) . "</h4>";
@@ -64,3 +53,7 @@ if(!$user){
         echo "</form>";
         echo "</div>";
     }
+
+    ?>
+</body>
+</html>

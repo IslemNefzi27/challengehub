@@ -34,7 +34,6 @@ public function connexion($email,$password){
     if($user){
     if(password_verify($password, $user['mot_passe']))
         {$_SESSION['email']=$user['email_utilisateur'];
-      $_SESSION['mot_passe']=$user['mot_passe'];
         header('Location: challenge.php');
         exit();
     }else{
@@ -55,6 +54,7 @@ public function deconnexion(){
     exit();
 }
 }
+
 require('../models/usermodel.php');
 $servername="localhost";
     $username="root";
