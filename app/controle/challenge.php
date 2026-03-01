@@ -10,6 +10,8 @@
   <body>
     <form action="addchallenge.php" method="post">
       <input type="submit" value="Créer un Nouvous Challange" name="creerch" class="btn"/>
+      </form>
+      <form action="../controle/user.php?action=deconnecter" method="post">
       <input type="submit" value="Deconnecter" name="deconnecter" class="btn">
     </form>
     <?php
