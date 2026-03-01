@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Challange</title>
     <link rel="stylesheet" href="../view/style.css">
   </head>
   <body>
@@ -46,11 +46,18 @@
                   $titre = htmlspecialchars($ch['title']);
                   $cat = htmlspecialchars($ch['category']);
                   $desc = htmlspecialchars($ch['description']);
-                  echo "<div class='ch'> <h3>". $titre ."</h3> 
-                  <p>".$desc."</p> <p>".$cat."</p> <p>"
-                  . $ch['deadline']."</p> <a href='participer.php' class='btn'>participer</a> 
+                  echo "<div class='ch'> 
+                  <h3>" . $titre . "</h3> 
+                  <p>" . $desc . "</p> 
+                  <p>" . $cat . "</p> 
+                  <p>" . $ch['deadline'] . "</p> 
+                  
+                  <a href='participer.php' class='btn'>participer</a> 
                   <a href='commentaire.php' class='btn'>commentaire</a>
-                   <a href='../controle/supperimer.php' class='supp'>supperimer</a></div>";
+                  
+                  <a href='../controle/supperimer.php?id_ch=" . $ch['id_ch'] . "' class='supp'>supperimer</a>
+                  <a href='../controle/modifier.php?id_ch=" . $ch['id_ch'] . "' class='btn'>Modifier Challenge</a>
+                </div>";
               }}
       ?>
   </body>
