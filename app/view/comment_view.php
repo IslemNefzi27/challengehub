@@ -45,7 +45,7 @@ $comments = $commentModel->getCommentsBySubmission($id_submission);
     <?php endif; ?>
 
     <section>
-        <form action="index.php?action=post_comment" method="POST">
+        <form action="comment_view.php?action=post_comment" method="POST">
             <input type="hidden" name="id_sub" value="<?= $id_submission ?>">
             <textarea name="content" rows="3" required placeholder="Écrivez un commentaire..."></textarea>
             <button type="submit">Publier</button>
@@ -75,4 +75,5 @@ $comments = $commentModel->getCommentsBySubmission($id_submission);
 </div>
 
 </body>
+
 </html>
