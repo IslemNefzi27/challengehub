@@ -81,7 +81,7 @@ if(isset($_POST['update']))
         </fieldset>
 
         <input type="submit" name="update" value="Enregistrer les modifications" class="btn">
-        <a href="challenge.php">Annuler</a>
+        <a href="challenge.php" class="supp">Annuler</a>
     </form>
 </body>
 </html>
