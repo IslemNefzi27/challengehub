@@ -1,52 +1,59 @@
+<?php
+session_start();
+require_once '../models/modeladdchallenge.php';
+
+$servername="localhost"; $username="root"; $password=""; $database="challengehub";
+try {
+  $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+} catch (Exception $e) { die("Erreur : " . $e->getMessage()); }
+
+$id_ch = filter_input(INPUT_GET, 'id_ch', FILTER_VALIDATE_INT) ?: filter_input(INPUT_POST, 'id_ch', FILTER_VALIDATE_INT);
+
+if(isset($_POST['supp']))
+{
+    $id_user = $_POST['id_user'];
+    $pass = $_POST['passe'];
+
+    $rqt=$conn->prepare("SELECT * FROM user WHERE id=? AND mot_passe=?");
+    $rqt->execute([$id_user, $pass]);
+    
+    if($rqt->fetch())
+    {
+        $nv = new challange($conn);
+        $res = $nv->supprimer($id_ch, $id_user);
+        
+        if($res){
+            header("Location: challenge.php?msg=success_delete");
+            exit();
+        } else {
+            echo "<script>alert('............................');</script>";
+        }
+    } else {
+        echo "<script>alert('Identification incorrect ou bien mot de passe incorrect');</script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Confirmation de suppression</title>
     <link rel="stylesheet" href="../view/style.css">
 </head>
 <body>
-    <form action="challenge.php" method="post">
-        <label for="">l'identification</label>
-        <input type="text" placeholder="l'identification svp....">
+    <form action="" method="post">
+        <input type="hidden" name="id_ch" value="<?php echo htmlspecialchars($id_ch); ?>">
+        
+        <label>l'identification_user</label>
+        <input type="text" name="id_user" placeholder="Votre ID..." required>
         <br><br>
-        <label for="">Mot de Passe</label>
-        <input type="password" name="" id="" placeholder="Mot passe svp....">
+        
+        <label>Mot de Passe</label>
+        <input type="password" name="passe" placeholder="Votre mot de passe..." required>
         <br><br>
-        <input type="submit" value="Supprimer challange" class="supp">
+        
+        <input type="submit" value="Supprimer challange" class="supp" name="supp">
     </form>
-<?php
-session_start();
-require_once '../models/modeladdchallenge.php';
-$servername="localhost";
-$username="root";
-$password="";
-$database="challengehub";
-try {
-  $conn = new PDO("mysql:host=$servername;dbname=$database", $username,$password);
-} catch (Exception $e) {
-  die("Erreur : " . $e->getMessage());
-}
-// On vérifie si l'utilisateur est bien connecté
-if (!isset($_SESSION['id_user'])) {
-    die("Action interdite : vous devez être connecté.");
-}
-
-if (isset($_GET['id_ch'])) {
-    $obj = new challange($conn);
-    
-    // On passe l'ID du challenge ET l'ID de l'utilisateur connecté
-    $succes = $obj->supprimer($_GET['id_ch'], $_SESSION['id_user']);
-
-    if ($succes && $conn->rowCount() > 0) {
-        header("Location: challenge.php?msg=supprime");
-    } else {
-        header("Location: challenge.php?msg=erreur_proprietaire");
-    }
-}
-exit();
-?>
 </body>
 </html>

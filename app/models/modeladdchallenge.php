@@ -21,6 +21,11 @@
             $rqt2=$this->db->query("select * from challenges order by id_ch desc");
             return $rqt2->fetchAll(PDO::FETCH_ASSOC);
         }
+        public function afficher_challenge_supp($id_user)
+        {
+            $rqt2=$this->db->prepare("select * from challenges  where id_user=?");
+            return $rqt2->fetchAll(PDO::FETCH_ASSOC);
+        }
 //supprimer challange
 public function supprimer($id_ch,$id_user) {
     $rqt = "DELETE FROM challenges WHERE id_ch = ? and id_user= ?";
