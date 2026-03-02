@@ -1,9 +1,13 @@
 <?php
-function addSubmission($conn, $challenge_id, $user_id, $description, $content_link) {
-    $description = mysqli_real_escape_string($conn, $description);
-    $content_link = mysqli_real_escape_string($conn, $content_link);
-    $sql = "INSERT INTO submissions (id_ch, id_user, description, id_sub) 
-            VALUES ('$challenge_id', '$user_id', '$description', '$content_link')";
-    return mysqli_query($conn, $sql);
+$host = 'localhost';
+$dbname = 'project';
+$username = 'root';
+$password = '';
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
 }
 ?>
