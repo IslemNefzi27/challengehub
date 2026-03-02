@@ -1,11 +1,13 @@
 <?php
-class usercontroller{
-    private $pdo;
+require('../models/usermodel.php');
+
+class UserController {
     private $usermodel;
-    public function __construct($pdo){
-        $this->pdo=$pdo;
-        $this->usermodel=new usermodel($this->pdo);
+
+    public function __construct($pdo) {
+        $this->usermodel = new usermodel($pdo);
     }
+
     public function inscription($nom,$email,$password,$confirm_password){
              if( empty($nom)||empty($email)||empty($password)||empty($confirm_password)){
                  die("Veuillez remplir tous les champs");
@@ -21,9 +23,10 @@ class usercontroller{
             if($this->usermodel->emailexistant($email)){
                   die("Adresse e-mail déjà utilisée");
                 }//validation d'email existant
+           
 $res=$this->usermodel->creation($nom,$email,$hashed_password);
 if($res){
-   header("Location: connexion.html");
+   header("Location: ../view/connexion.html");
    exit();}
 else{die("erreur de s'inscrire");}
     
@@ -34,28 +37,24 @@ public function connexion($email,$password){
     if($user){
     if(password_verify($password, $user['mot_passe']))
         {$_SESSION['email']=$user['email_utilisateur'];
-        header('Location: challenge.php');
+        header('Location: ../controle/challenge.php');
         exit();
     }else{
-        header('Location: connexion.html');
-        exit();
+        die("Mot de passe incorrect");
     }
-}
-else{
-    header('Location: connexion.html');
-    exit();
+}else{
+    die("Utilisateur non trouvé".htmlspecialchars($email));
 }
 }
 public function deconnexion(){
     session_start();
     session_unset();
     session_destroy();
-    header('location: connexion.html');
+    header('location: ../view/connexion.html');
     exit();
 }
 }
 
-require('../models/usermodel.php');
 $servername="localhost";
     $username="root";
     $password="";
@@ -65,17 +64,19 @@ try {
 } catch (Exception $e) {
     die("Erreur : " . $e->getMessage());
 }
-$usercontroller=new usercontroller($pdo);
+$model= new usermodel($pdo);
+$controller = new UserController($pdo);
+
 if(isset($_GET['action'])){
     $action=$_GET['action'];
     if($action=='inscription' && $_SERVER['REQUEST_METHOD']=='POST'){
-        $usercontroller->inscription($_POST['nom'],$_POST['email'],$_POST['motdepasse'],$_POST['confirm_motdepasse']);
+        $controller->inscription($_POST['nom'],$_POST['email'],$_POST['motdepasse'],$_POST['confirm_motdepasse']);
     }
     elseif($action=='connexion' && $_SERVER['REQUEST_METHOD']=='POST'){
-        $usercontroller->connexion($_POST['email'],$_POST['motdepasse']);
+        $controller->connexion($_POST['email'],$_POST['motdepasse']);
     }
     elseif($action=='deconnecter' && $_SERVER['REQUEST_METHOD']=='POST'){
-        $usercontroller->deconnexion();
+        $controller->deconnexion();
     }
 }
 ?>
