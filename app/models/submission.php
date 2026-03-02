@@ -1,13 +1,13 @@
 <?php
-$host = 'localhost';
-$dbname = 'project';
-$username = 'root';
-$password = '';
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
+function addSubmission($pdo, $id_ch, $id_user, $description, $sub_id) {
+    $sql = "INSERT INTO submissions (id_ch, id_user, description, sub_id) 
+            VALUES (:id_ch, :id_user, :description, :sub_id)";
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([
+        ':id_ch'       => $id_ch,
+        ':id_user'     => $id_user,
+        ':description' => $description,
+        ':sub_id'      => $sub_id
+    ]);
 }
 ?>
