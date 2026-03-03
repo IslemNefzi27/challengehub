@@ -1,0 +1,130 @@
+/* --- Styles Généraux (Inspiré du cours Partie I) --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #2980b9;
+}
+
+/* --- Styles du Header --- */
+header {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* --- Styles du Tableau de Classement (Ranking) --- */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse; /* Supprime les doubles bordures */
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Pour les coins arrondis */
+}
+
+th {
+    background-color: #2c3e50;
+    color: #ffffff;
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Lignes zébrées pour la lisibilité */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Effet au survol (p.14 style de prog) */
+}
+
+/* --- Style spécifique pour le Podium --- */
+tr:nth-child(1) td:first-child { color: #f1c40f; font-size: 1.2em; } /* Or */
+tr:nth-child(2) td:first-child { color: #95a5a6; font-size: 1.1em; } /* Argent */
+tr:nth-child(3) td:first-child { color: #d35400; } /* Bronze */
+
+/* --- Styles des Formulaires (Login) --- */
+form {
+    background: #fff;
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="email"], 
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Évite que l'input dépasse du cadre */
+}
+
+input[type="submit"] {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+input[type="submit"]:hover {
+    background-color: #219150;
+}
+
+/* --- Boutons de Vote --- */
+.btn-vote {
+    background-color: #3498db;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.btn-vote:hover {
+    background-color: #2980b9;
+    color: white;
+    text-decoration: none;
+}
