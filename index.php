@@ -5,7 +5,7 @@ session_start();
 
 // 2. Connexion à la base de données avec PDO 
 $host = "localhost";
-$dbname = "challengehub2"; // Nom de ton dossier/BD
+$dbname = "challengehub"; // Nom de ton dossier/BD
 $user = "root";
 $pass = "";
 
@@ -19,14 +19,14 @@ try {
 
 // 3. Inclusion des modèles et contrôleurs 
 // On utilise require_once pour éviter les erreurs de double inclusion
-require_once 'app/models/users.php';
-require_once 'app/models/vote.php';
-require_once 'app/controllers/authController.php';
-require_once 'app/controllers/voteController.php';
+require_once '../models/usermodel.php';
+require_once '../models/vote.php';
+require_once '../controllers/authController.php';
+require_once '../controllers/voteController.php';
 
 // 4. Instanciation des objets
 // On passe l'objet $db aux modèles pour qu'ils puissent faire des requêtes
-$userModel = new User($db);
+$userModel = new usermodel($db);
 $voteModel = new Vote($db);
 
 $authController = new AuthController($userModel);

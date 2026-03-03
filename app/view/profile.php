@@ -46,7 +46,7 @@ try {
         <input type="password" name="confirm_motdepasse" placeholder="Confirmer le nouveau mot de passe" >
         <input type="submit" value="Modifier Profile" class="btn">
     </form>
-    <form action="supprimerprofile.php" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">
+    <form action="../controle/user.php?action=supprimercompte" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">
         <input type="submit" value="Supprimer Profile" class="btn">
     </form>
     <h3>Vos Challenges</h3>

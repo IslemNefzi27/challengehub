@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'project';
+$dbname = 'challengehub';
 $username = 'root';
 $password = '';
 
