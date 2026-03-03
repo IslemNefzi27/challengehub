@@ -33,5 +33,9 @@ class usermodel{
             return $req->execute([$nomfinal, $emailfinal, $id]);
         }
     }//modifier profile
+    public function supprimercompte($id){
+        $stmt=$this->pdo->prepare("DELETE FROM user WHERE id = ?");
+        return $stmt->execute([$id]);
+    }//supprimer compte
 }
 ?>
