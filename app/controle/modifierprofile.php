@@ -25,7 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($usermodel->modifierprofile($usernow['id'], $nom, $email, $motdepasse)) {
         echo "Profile modifié avec succès.";
-        $_SESSION['email'] = !empty($email) ? $email : $_SESSION['email'];
+        if (!empty($email)) {
+            $_SESSION['email'] = $email;
+        }
         header("Location: profile.php");
         exit();
     } else {
