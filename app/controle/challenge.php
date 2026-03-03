@@ -10,8 +10,13 @@
   <body>
     <form action="addchallenge.php" method="post">
       <input type="submit" value="Créer un Nouvous Challange" name="creerch" class="btn"/>
+      </form>
+      <form action="../controle/user.php?action=deconnecter" method="post">
       <input type="submit" value="Deconnecter" name="deconnecter" class="btn">
     </form>
+    <form action="profile.php" method="post">
+      <input type="submit" value="Mon Profile" name="profile" class="btn"/>
+      </form>
     <?php
     require_once '../models/modeladdchallenge.php';
     require_once '../../config/database.php';

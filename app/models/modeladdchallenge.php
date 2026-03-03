@@ -24,6 +24,7 @@
         public function afficher_challenge_supp($id_user)
         {
             $rqt2=$this->db->prepare("select * from challenges  where id_user=?");
+            $rqt2->execute([$id_user]);
             return $rqt2->fetchAll(PDO::FETCH_ASSOC);
         }
 //supprimer challange

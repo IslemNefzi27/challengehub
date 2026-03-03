@@ -79,8 +79,11 @@ if(isset($_POST['update']))
     <div class="b">      
         <input type="submit" name="update" value="Enregistrer les modifications" class="btn">
         <a href="challenge.php" class="supp">Annuler</a>
+<<<<<<< HEAD
     </div>
  
+=======
+>>>>>>> 8aebebd01ab73d621ff748a7e0daf78b324e1d82
     </form>
 </body>
 </html>
