@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Challange</title>
-    <link rel="stylesheet" href="../view/style.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
   </head>
   <body>
     <form action="addchallenge.php" method="post">
@@ -14,16 +14,8 @@
     </form>
     <?php
     require_once '../models/modeladdchallenge.php';
-    //connexion base des donnees
-    $servername="localhost";
-    $username="root";
-    $password="";
-    $database="challengehub";
-    try {
-      $conn = new PDO("mysql:host=$servername;dbname=$database", $username,$password);
-    } catch (Exception $e) {
-      die("Erreur : " . $e->getMessage());
-    }
+    require_once '../../config/database.php';
+    $conn = Database::getInstance();
     $nouveauchallange=new challange($conn);
     if(isset($_POST['ajouter']))
     {
@@ -51,8 +43,7 @@
                   <p>" . $ch['deadline'] . "</p> 
                   
                   <a href='participer.php' class='btn'>participer</a> 
-                  <a href='commentaire.php' class='btn'>commentaire</a>
-                  
+                  <a href='../controle/comment_view.php?id_ch=" . $ch['id_ch'] . "' class='btn'>comment_view</a>
                   <a href='../controle/supperimer.php?id_ch=" . $ch['id_ch'] . "' class='supp'>supperimer</a>
                   <a href='../controle/modifier.php?id_ch=" . $ch['id_ch'] . "' class='btn'>Modifier Challenge</a>
                 </div>";

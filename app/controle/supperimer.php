@@ -2,10 +2,8 @@
 session_start();
 require_once '../models/modeladdchallenge.php';
 
-$servername="localhost"; $username="root"; $password=""; $database="challengehub";
-try {
-  $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-} catch (Exception $e) { die("Erreur : " . $e->getMessage()); }
+require_once '../../config/database.php';
+$conn = Database::getInstance();
 
 $id_ch = filter_input(INPUT_GET, 'id_ch', FILTER_VALIDATE_INT) ?: filter_input(INPUT_POST, 'id_ch', FILTER_VALIDATE_INT);
 
@@ -14,9 +12,8 @@ if(isset($_POST['supp']))
     $id_user = $_POST['id_user'];
     $pass = $_POST['passe'];
 
-    $rqt=$conn->prepare("SELECT * FROM user WHERE id=? AND mot_passe=?");
+    $rqt=$conn->prepare("SELECT * FROM user WHERE id_user=? AND mot_passe=?");
     $rqt->execute([$id_user, $pass]);
-    
     if($rqt->fetch())
     {
         $nv = new challange($conn);
