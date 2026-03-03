@@ -1,16 +1,26 @@
 <?php
 session_start();
-if(!isset($_SESSION['email'])){
-    header('Location: connexion.html');
+if (!isset($_SESSION['email'])) {
+    header("Location: ../view/connexion.html");
     exit();
 }
 require_once '../models/usermodel.php';
 require_once '../models/modeladdchallenge.php';
-$pdo=new PDO('mysql:host=localhost;dbname=challengehub','root','');
-$usermodel=new usermodel($pdo);
-$user=$usermodel->trouvepemail($_SESSION['email']);
-if(!$user){
-    die("Utilisateur non trouvé");
+$servername="localhost";
+$username="root";
+$password="";
+$database="challengehub";
+try {
+    $pdo = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $usermodel = new usermodel($pdo);
+    $user = $usermodel->trouvepemail($_SESSION['email']);
+    if (!$user) {
+        die("Utilisateur introuvable");
+    }
+}
+ catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -30,10 +40,10 @@ if(!$user){
     </form>
     <h2>modifier votre profile</h2>
     <form action="modifierprofile.php" method="post">
-        <input type="text" name="nom" placeholder="Nouveau nom" required>
-        <input type="email" name="email" placeholder="Nouvelle adresse e-mail" required>
-        <input type="password" name="motdepasse" placeholder="Nouveau mot de passe" required>
-        <input type="password" name="confirm_motdepasse" placeholder="Confirmer le nouveau mot de passe" required>
+        <input type="text" name="nom" placeholder="Nouveau nom" >
+        <input type="email" name="email" placeholder="Nouvelle adresse e-mail" >
+        <input type="password" name="motdepasse" placeholder="Nouveau mot de passe" >
+        <input type="password" name="confirm_motdepasse" placeholder="Confirmer le nouveau mot de passe" >
         <input type="submit" value="Modifier Profile" class="btn">
     </form>
     <h3>Vos Challenges</h3>
