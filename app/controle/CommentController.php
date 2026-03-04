@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <?php
 require_once '../models/Comment.php';
 class CommentController {
@@ -27,8 +27,8 @@ class CommentController {
                 echo "Erreur lors de l'ajout du commentaire.";
             }
         }
-    }
-=======
+    }}
+?>
 <?php
 require_once '../app/models/Comment.php';
 class CommentController {
@@ -58,5 +58,4 @@ class CommentController {
             }
         }
     }
->>>>>>> 8aebebd01ab73d621ff748a7e0daf78b324e1d82
 }

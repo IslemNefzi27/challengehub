@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter Challange</title>
-    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="public/css/style.css">
 </head>
 <body>
-    <form action="challenge.php" method="post" class="form">
+    <form action="index.php?action=doInsertChallenge" method="post" class="form">
         <label for="">Titre</label>
         <input type="text" placeholder="Saisire le Titre de challange" name="titre" class="i"  required>
         <br><br>
