@@ -3,23 +3,35 @@ class usermodel{
     private $pdo;
     public function __construct($pdo){
         $this->pdo=$pdo; 
-    }//constructeur
-    public function creation($nom,$email,$hashed_password){
-        $stmt=$this->pdo->prepare("INSERT INTO user(nom_utilisateur,email_utilisateur,mot_passe)VALUES (?,?,?)");
-        return $stmt->execute([$nom,$email,$hashed_password]);
-    }//creation nouveau user
+    }
+    
+    
+    //constructeur
+    public function creation($nom, $email, $hashed_password) {
+        $stmt = $this->pdo->prepare("INSERT INTO user(nom_utilisateur, email_utilisateur, mot_passe) VALUES (?, ?, ?)");
+        if ($stmt->execute([$nom, $email, $hashed_password])) {
+            return $this->pdo->lastInsertId();
+        }
+        return false;
+    }
+    //creation nouveau user
     public function trouvepemail($email){
         $stmt=$this->pdo->prepare("SELECT * FROM user WHERE email_utilisateur = :email");
         $stmt->execute([':email'=>$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
-    }//trouver user par email
+    }
+    
+    //trouver user par email
+    
     public function emailexistant($email){
         $stmt=$this->pdo->prepare("SELECT COUNT(*) FROM user WHERE email_utilisateur = :email");
         $stmt->execute([':email'=>$email]);
         return $stmt->fetchColumn() > 0;
-    }//verifier si email existe
+    }
+    
+    //verifier si email existe
     public function modifierprofile($id, $nom, $email, $motdepasse){
-        $stmt=$this->pdo->prepare("SELECT * FROM user WHERE id = ?");
+        $stmt=$this->pdo->prepare("SELECT * FROM user WHERE id_user = ?");
         $stmt->execute([$id]);
         $user=$stmt->fetch(PDO::FETCH_ASSOC);
         $nomfinal=!empty($nom) ? $nom : $user['nom_utilisateur'];
@@ -29,12 +41,15 @@ class usermodel{
             $req=$this->pdo->prepare("UPDATE user SET nom_utilisateur=?, email_utilisateur=?, mot_passe=? WHERE id=?");
             return $req->execute([$nomfinal, $emailfinal, $hashed_password, $id]);
         }else{
-            $req=$this->pdo->prepare("UPDATE user SET nom_utilisateur=?, email_utilisateur=? WHERE id=?");
+            $req=$this->pdo->prepare("UPDATE user SET nom_utilisateur=?, email_utilisateur=? WHERE id_user=?");
             return $req->execute([$nomfinal, $emailfinal, $id]);
         }
-    }//modifier profile
+    }
+    
+    
+    //modifier profile
     public function supprimercompte($id){
-        $stmt=$this->pdo->prepare("DELETE FROM user WHERE id = ?");
+        $stmt=$this->pdo->prepare("DELETE FROM user WHERE id_user = ?");
         return $stmt->execute([$id]);
     }//supprimer compte
 }

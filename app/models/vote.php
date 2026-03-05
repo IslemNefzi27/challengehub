@@ -1,44 +1,46 @@
 <?php
-// La Programmation Orienté Objet (POO)
 class Vote {
-    // Variable d'instance
     private $db;
 
-    // Constructeur pour recevoir la connexion PDO 
     public function __construct($pdo) {
         $this->db = $pdo;
     }
 
-    // Méthode pour ajouter un vote (1 vote par utilisateur / participation)
+    public function ajouter($titre, $description, $categorie, $date) {
+        $sql = "INSERT INTO challenges (title, description, category, deadline) VALUES (?, ?, ?, ?)";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$titre, $description, $categorie, $date]);
+    }
+
+
+    public function afficher_challenge() {
+        $sql = "SELECT * FROM challenges ORDER BY id_ch DESC";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function addVote($userId, $submissionId) {
-        // Vérification si le vote existe déjà (PDO rowCount)
-        $sql_verif = "SELECT * FROM votes WHERE user_id = ? AND submission_id = ?";
+        $sql_verif = "SELECT * FROM votes WHERE id_user = ? AND id_s = ?";
         $stmt_verif = $this->db->prepare($sql_verif);
         $stmt_verif->execute([$userId, $submissionId]);
 
-        // Si l'utilisateur n'a pas encore voté 
         if ($stmt_verif->rowCount() == 0) {
-            $sql = "INSERT INTO votes (user_id, submission_id) VALUES (?, ?)";
+            $sql = "INSERT INTO votes (id_user, id_s) VALUES (?, ?)";
             $stmt = $this->db->prepare($sql);
             return $stmt->execute([$userId, $submissionId]);
         }
-        
-        return false; // Déjà voté
+        return false; 
     }
 
-    // Méthode pour récupérer le classement (Ranking)
     public function getRanking() {
-        // Requête avec jointure et groupement 
-        $sql = "SELECT s.id as sub_id, s.description, u.username, COUNT(v.submission_id) as total_votes 
+        $sql = "SELECT s.id_sub , s.description, u.nom_utilisateur, COUNT(v.id_s) as total_votes 
                 FROM submissions s
-                LEFT JOIN votes v ON s.id = v.submission_id
-                JOIN users u ON s.user_id = u.id
-                GROUP BY s.id 
+                LEFT JOIN votes v ON s.id_sub = v.id_s
+                JOIN user u ON s.id_user = u.id_user
+                GROUP BY s.id_sub
                 ORDER BY total_votes DESC";
 
         $res = $this->db->query($sql);
-        
-        // Retourne un résultat sous forme de tableau associatif 
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 }

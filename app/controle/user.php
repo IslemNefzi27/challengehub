@@ -31,20 +31,23 @@ if($res){
 else{die("erreur de s'inscrire");}
     
 }
-public function connexion($email,$password){
+public function connexion($email, $password) {
     session_start();
-    $user=$this->usermodel->trouvepemail($email);
-    if($user){
-    if(password_verify($password, $user['mot_passe']))
-        {$_SESSION['email']=$user['email_utilisateur'];
-        header('Location: ../controle/challenge.php');
-        exit();
-    }else{
-        die("Mot de passe incorrect");
+    $user = $this->usermodel->trouvepemail($email);
+    if ($user) {
+        if (password_verify($password, $user['mot_passe'])) {
+            $_SESSION['user_id'] = $user['id_user'];
+            $_SESSION['email']   = $user['email_utilisateur'];
+            $_SESSION['username'] = $user['nom_utilisateur']; 
+
+            header('Location: ../view/challenge.php'); 
+            exit();
+        } else {
+            die("Mot de passe incorrect");
+        }
+    } else {
+        die("Utilisateur non trouvé: " . htmlspecialchars($email));
     }
-}else{
-    die("Utilisateur non trouvé".htmlspecialchars($email));
-}
 }
 public function deconnexion(){
     session_start();

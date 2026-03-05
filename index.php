@@ -1,67 +1,103 @@
 <?php
-// 1. Démarrage de la session
-// Indispensable pour savoir qui est connecté et qui vote
 session_start();
 
-// 2. Connexion à la base de données avec PDO 
-$host = "localhost";
-$dbname = "challengehub"; // Nom de ton dossier/BD
-$user = "root";
-$pass = "";
+require_once 'config/database.php';
+$db = Database::getInstance();
 
-try {
-    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
-    // Configuration pour afficher les erreurs SQL (pratique pour le débuggage)
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (Exception $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
-
-// 3. Inclusion des modèles et contrôleurs 
-// On utilise require_once pour éviter les erreurs de double inclusion
-require_once 'app/models/usermodel.php';
+require_once 'app/models/users.php';
 require_once 'app/models/vote.php';
+require_once 'app/models/modeladdchallenge.php'; 
+require_once 'app/models/Comment.php';
 require_once 'app/controle/authController.php';
 require_once 'app/controle/voteController.php';
+require_once 'app/models/usermodel.php';
 
-// 4. Instanciation des objets
-// On passe l'objet $db aux modèles pour qu'ils puissent faire des requêtes
-$userModel = new usermodel($db);
-$voteModel = new Vote($db);
+$userModel = new usermodel($db); 
+$authController = new AuthController($userModel);
+$userModel      = new User($db); 
+$voteModel      = new Vote($db);
+$challengeModel = new challange($db); 
+$commentModel   = new Comment($db); 
 
 $authController = new AuthController($userModel);
 $voteController = new VoteController($voteModel);
 
-// 5. Routage : Quelle action l'utilisateur veut-il faire ? 
-// On récupère l'action dans l'URL (ex: index.php?action=login)
-$action = isset($_GET['action']) ? $_GET['action'] : 'ranking';
+$action = $_REQUEST['action'] ?? 'inscription';
 
 switch ($action) {
-    // --- Partie Authentification ---
-    case 'login':
-        $authController->showLoginForm();
+    case 'inscription':
+        $authController->showSignupForm(); 
         break;
-        
-    case 'doLogin':
-        $authController->login();
+    case 'participer':
+        include 'app/view/add.php';
         break;
-        
-    case 'logout':
-        $authController->logout();
+    case 'signup': 
+        $authController->signup();
         break;
 
-    // --- Partie Votes et Classement  ---
-    case 'vote':
-        $voteController->vote();
+    case 'doLogin': 
+            $authController->login();
+        break;
+
+    case 'challenge':
+        $voteController->showChallengeForm(); 
+        break;
+    case 'profile':
+            if (isset($_SESSION['email_utilisateur'])) {
+                $user = $userModel->trouvepemail($_SESSION['email']);
+                $mes_challenges = $challengeModel->afficher_challenge_supp($user['email_utilisateur']);
+                include 'app/view/profile.php';
+                exit(); 
+            }
+            break;
+    case 'showAddForm':
+        include 'app/view/addchallenge.php'; 
+        break;
+
+    case 'doInsertChallenge':
+        $voteController->addChallenge();
+        break;
+
+    case 'edit_ch':
+        include 'app/controle/modifier.php';
+        break;
+
+    case 'update_challenge':
+        $voteController->updateChallenge();
+        break;
+
+    case 'delete_ch':
+        include 'app/controle/supperimer.php';
+        break;
+    case 'view_comments':
+        $id_ch = $_GET['id_ch'] ?? 0;
+        $comments = $commentModel->getCommentsByChallenge($id_ch);
+        include 'app/view/comment_view.php'; 
+        break;
+
+    case 'post_comment':
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id_ch = $_POST['id_ch'];
+            $content = $_POST['content'];
+            $id_user = $_SESSION['user_id'] ?? 1;
+            
+            $commentModel->addComment($id_ch, $id_user, $content);
+           
+            header("Location: index.php?action=view_comments&id_ch=$id_ch&msg=success");
+            exit();
+        }
         break;
 
     case 'ranking':
         $voteController->ranking();
         break;
 
-    // --- Action par défaut ---
+        case 'login':
+            $authController->showLoginForm(); 
+            break;
+
     default:
-        $voteController->ranking();
+        $authController->showSignupForm();
         break;
 }
-?>

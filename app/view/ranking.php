@@ -30,20 +30,26 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($ranks as $index => $row): ?>
-            <tr>
-                <td><strong>#<?php echo $index + 1; ?></strong></td>
-                <td><?php echo $row['username']; ?></td>
-                <td><?php echo $row['description']; ?></td>
-                <td><?php echo $row['total_votes']; ?> ⭐</td>
-                <td>
-                    <a href="index.php?action=vote&id=<?php echo $row['sub_id']; ?>">
-                        Voter
-                    </a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
+    <?php if (!empty($ranks)): ?>
+        <?php foreach ($ranks as $index => $row): ?>
+        <tr>
+            <td><strong>#<?php echo $index + 1; ?></strong></td>
+            <td><?php echo htmlspecialchars($row['username']); ?></td>
+            <td><?php echo htmlspecialchars($row['description']); ?></td>
+            <td><?php echo $row['total_votes']; ?> ⭐</td>
+            <td>
+                <a href="index.php?action=vote&id=<?php echo $row['sub_id']; ?>" class="btn-vote">
+                    Voter
+                </a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="5">Aucun classement disponible pour le moment.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
     </table>
 
     <script src="public/js/script.js"></script>

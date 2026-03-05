@@ -1,51 +1,85 @@
 <?php
-// Chapitre 1 : Définition de la classe AuthController
 class AuthController {
     private $userModel;
 
     public function __construct($model) {
+
         $this->userModel = $model;
     }
 
-    // Affiche le formulaire de login
+
     public function showLoginForm() {
-        include 'app/views/auth/login.php';
+        include 'app/view/login.php';
     }
 
-    // Gère la tentative de connexion
+
+    public function showSignupForm() {
+        include 'app/view/inscription.php'; 
+    }
+
+
+
+        public function signup() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $nom = $_POST['nom'] ?? '';
+                $email = $_POST['email'] ?? '';
+                $password = $_POST['motdepasse'] ?? '';
+                $confirm = $_POST['confirm_motdepasse'] ?? '';
+    
+                if ($password !== $confirm) {
+                    die("Les mots de passe ne correspondent pas.");
+                }
+    
+                $hashed = password_hash($password, PASSWORD_DEFAULT);
+                $res = $this->userModel->creation($nom, $email, $hashed);
+    
+                if ($res) {
+                    if (session_status() == PHP_SESSION_NONE) {
+                        session_start();
+                    }
+
+                    $_SESSION['id_user']  = $res;
+                    $_SESSION['username'] = $nom;
+                    $_SESSION['email']    = $email;
+                    
+                    header("Location: index.php?action=challenge");
+                    exit();
+                } else {
+                    die("Erreur lors de l'inscription.");
+                }
+            }
+        }
+    
     public function login() {
-        // Récupération des données du formulaire POST (Cours p.37)
-        if (isset($_POST['email']) && isset($_POST['password'])) {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-
-            // Appel de la méthode login du modèle User
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+    
             $user = $this->userModel->login($email, $password);
-
+    
             if ($user) {
-                // Initialisation de la session (Partie I, p.38)
                 if (session_status() == PHP_SESSION_NONE) {
                     session_start();
                 }
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-
-                // Redirection vers l'accueil/classement
-                header("Location: index.php?action=ranking");
+                
+                $_SESSION['id_user'] = $user['id_user'];
+                $_SESSION['email']   = $user['email_utilisateur']; 
+                $_SESSION['username'] = $user['nom_utilisateur'];
+            exit();
+                header("Location: index.php?action=challenge");
+                exit(); 
             } else {
-                // Message d'erreur simple (p.7 echo)
                 echo "Email ou mot de passe incorrect.";
             }
         }
     }
-
-    // Gère la déconnexion (Cahier des charges 3.A)
     public function logout() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        session_destroy(); // Détruit la session
+        session_destroy();
         header("Location: index.php?action=login");
+        exit();
     }
 }
 ?>
