@@ -22,7 +22,7 @@ class CommentController {
 
             if ($this->commentModel->addComment($id_s, $id_user, $content)) {
             
-                    header("Location: app/view/index.php?msg=success");
+                    header("Location: ../comment_view.php?msg=success");
             } else {
                 echo "Erreur lors de l'ajout du commentaire.";
             }
@@ -52,7 +52,7 @@ class CommentController {
 
             if ($this->commentModel->addComment($id_s, $id_user, $content)) {
             
-                    header("Location: app/view/index.php?msg=success");
+                    header("Location: ../comment_view.php?msg=success");
             } else {
                 echo "Erreur lors de l'ajout du commentaire.";
             }
