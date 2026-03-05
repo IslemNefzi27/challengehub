@@ -19,10 +19,10 @@ try {
 
 // 3. Inclusion des modèles et contrôleurs 
 // On utilise require_once pour éviter les erreurs de double inclusion
-require_once '../models/usermodel.php';
-require_once '../models/vote.php';
-require_once '../controllers/authController.php';
-require_once '../controllers/voteController.php';
+require_once 'app/models/usermodel.php';
+require_once 'app/models/vote.php';
+require_once 'app/controle/authController.php';
+require_once 'app/controle/voteController.php';
 
 // 4. Instanciation des objets
 // On passe l'objet $db aux modèles pour qu'ils puissent faire des requêtes
