@@ -60,7 +60,7 @@ $comments = $commentModel->getCommentsBySubmission($id_submission);
 <head>
     <meta charset="UTF-8">
     <title>Mon Système de Commentaires</title>
-    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="style2.css">
 </head>
 <body>
 
@@ -142,3 +142,4 @@ function toggleEdit(id) {
 </script>
 </body>
 </html>
+
