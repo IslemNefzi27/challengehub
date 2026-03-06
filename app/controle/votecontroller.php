@@ -22,18 +22,23 @@ class VoteController {
 
     public function addChallenge() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id_user = $_SESSION['user_id'] ?? null;
-    
-            if (!$id_user) {
-                die("Error: Impossible d'ajouter. L'utilisateur n'est pas identifié (ID missing).");
-            }
-    
+            $id_user = $_SESSION['user_id'];
+            
             $titre = $_POST['titre'] ?? '';
-            $desc = $_POST['des'] ?? '';
-            $cat = $_POST['categorie'] ?? '';
-            $dat = $_POST['date'] ?? '';
-            $res = $this->voteModel->ajouter($titre, $desc, $cat, $dat, $id_user);
+            $cat   = $_POST['categorie'] ?? '';
+            $desc  = $_POST['des'] ?? '';
+            $dat   = $_POST['date'] ?? '';
+    
+            $res = $this->voteModel->ajouter($id_user, $titre, $cat, $desc, $dat);
+    
+            if ($res) {
+                header("Location: index.php?action=challenge&success=1");
+                exit();
+            } else {
+                die("Erreur base de données.");
+            }
         }
     }
-  }
+
+}
     

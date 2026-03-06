@@ -6,18 +6,20 @@ class challange {
         $this->db = $connexion;
     }
 
-    public function ajouter($titre, $desc, $cat, $dat, $id_user) {
+    public function ajouter( $id_user,$titre,$cat, $desc, $dat) {
         $datf = date('Y-m-d', strtotime($dat));
-        $rqt1 = "INSERT INTO challenges (title, category, description, deadline, id_user) VALUES (?, ?, ?, ?, ?)";
-        $res = $this->db->prepare($rqt1);
-        return $res->execute([
-            $titre,
-            $cat,
-            $desc,
-            $datf,
-            $id_user
-        ]);
-    }
+            $sql = "INSERT INTO challenges (id_user, title, description, category, deadline) VALUES (?, ?, ?, ?, ?)";
+            
+            $res = $this->db->prepare($sql);
+            return $res->execute([
+                $id_user, 
+                $titre,   
+                $desc,   
+                $cat,    
+                $dat      
+            ]);
+        }
+    
     public function afficher_challenge() {
         $rqt2 = $this->db->query("SELECT * FROM challenges ORDER BY id_ch DESC");
         return $rqt2->fetchAll(PDO::FETCH_ASSOC);

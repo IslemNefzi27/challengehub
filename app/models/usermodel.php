@@ -4,13 +4,12 @@ class usermodel{
     public function __construct($pdo){
         $this->pdo=$pdo; 
     }
-    
-    
+
     //constructeur
-    public function creation($nom, $email, $hashed_password) {
-        $stmt = $this->pdo->prepare("INSERT INTO user(nom_utilisateur, email_utilisateur, mot_passe) VALUES (?, ?, ?)");
-        if ($stmt->execute([$nom, $email, $hashed_password])) {
-            return $this->pdo->lastInsertId();
+    public function creation($nom, $email, $hashed) {
+        $stmt = $this->pdo->prepare("INSERT INTO user (nom_utilisateur, email_utilisateur, mot_passe) VALUES (?, ?, ?)");
+        if ($stmt->execute([$nom, $email, $hashed])) {
+            return $this->pdo->lastInsertId(); 
         }
         return false;
     }
@@ -38,7 +37,7 @@ class usermodel{
         $emailfinal=!empty($email) ? $email : $user['email_utilisateur'];
         if(!empty($motdepasse)){
             $hashed_password=password_hash($motdepasse, PASSWORD_DEFAULT);
-            $req=$this->pdo->prepare("UPDATE user SET nom_utilisateur=?, email_utilisateur=?, mot_passe=? WHERE id=?");
+            $req=$this->pdo->prepare("UPDATE user SET nom_utilisateur=?, email_utilisateur=?, mot_passe=? WHERE id_user=?");
             return $req->execute([$nomfinal, $emailfinal, $hashed_password, $id]);
         }else{
             $req=$this->pdo->prepare("UPDATE user SET nom_utilisateur=?, email_utilisateur=? WHERE id_user=?");
@@ -46,7 +45,11 @@ class usermodel{
         }
     }
     
-    
+    public function login($email) {
+        $stmt = $this->pdo->prepare("SELECT * FROM user WHERE email_utilisateur = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     //modifier profile
     public function supprimercompte($id){
         $stmt=$this->pdo->prepare("DELETE FROM user WHERE id_user = ?");

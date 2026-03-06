@@ -17,57 +17,48 @@ class AuthController {
         include 'app/view/inscription.php'; 
     }
 
-
-
-        public function signup() {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $nom = $_POST['nom'] ?? '';
-                $email = $_POST['email'] ?? '';
-                $password = $_POST['motdepasse'] ?? '';
-                $confirm = $_POST['confirm_motdepasse'] ?? '';
+    public function signup() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $nom = $_POST['nom'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['motdepasse'] ?? '';
+            $confirm = $_POST['confirm_motdepasse'] ?? '';
     
-                if ($password !== $confirm) {
-                    die("Les mots de passe ne correspondent pas.");
+            if ($password !== $confirm) {
+                die("Les mots de passe ne correspondent pas.");
+            }
+    
+            $hashed = password_hash($password, PASSWORD_DEFAULT);
+            $res = $this->userModel->creation($nom, $email, $hashed);
+    
+            if ($res) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
                 }
-    
-                $hashed = password_hash($password, PASSWORD_DEFAULT);
-                $res = $this->userModel->creation($nom, $email, $hashed);
-    
-                if ($res) {
-                    if (session_status() == PHP_SESSION_NONE) {
-                        session_start();
-                    }
-
-                    $_SESSION['id_user']  = $res;
-                    $_SESSION['username'] = $nom;
-                    $_SESSION['email']    = $email;
-                    
-                    header("Location: index.php?action=challenge");
-                    exit();
-                } else {
-                    die("Erreur lors de l'inscription.");
-                }
+                $_SESSION['user_id']  = $res; 
+                $_SESSION['username'] = $nom;
+                $_SESSION['email']    = $email;
+                
+                header("Location: index.php?action=challenge");
+                exit();
+            } else {
+                die("Erreur lors de l'inscription.");
             }
         }
+    }
     
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
-    
             $user = $this->userModel->login($email, $password);
-    
-            if ($user) {
-                if (session_status() == PHP_SESSION_NONE) {
-                    session_start();
-                }
-                
-                $_SESSION['id_user'] = $user['id_user'];
-                $_SESSION['email']   = $user['email_utilisateur']; 
+            if ($user && password_verify($password, $user['mot_passe'])) {
+                if (session_status() == PHP_SESSION_NONE) session_start();
+                $_SESSION['user_id'] = $user['id_user'] ?? $user['id_user']; 
                 $_SESSION['username'] = $user['nom_utilisateur'];
-            exit();
+            
                 header("Location: index.php?action=challenge");
-                exit(); 
+                exit();
             } else {
                 echo "Email ou mot de passe incorrect.";
             }

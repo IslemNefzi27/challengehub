@@ -18,8 +18,9 @@
       <br/>
     </form>
    
-    <a href="./index.php?action=profile" class="btn">Mon Profile</a>
-    </a>
+     <form action="index.php?action=profile" method="post">
+      <input type="submit" value="Mon_Profil" name="Mon Profil" class="btn"/>
+    </form>
 </div>
     <?php
 
@@ -42,7 +43,7 @@
                   <p><strong>Deadline:</strong> " . $ch['deadline'] . "</p> 
                   <div class='b'>
                   <a href='index.php?action=participer&id_ch=" . $ch['id_ch'] . "' class='btn'>participer</a> 
-                  <a href='index.php?action=view_comments&id_ch=" . $ch['id_ch'] . "' class='btn'>comment_view</a>
+                  <a href='index.php?action=view_comments&id_ch=" . $ch['id_ch'] . "' class='btn'>commenter</a>
                   <a href='index.php?action=delete_ch&id_ch=" . $ch['id_ch'] . "' class='supp' onclick='return confirm(\"Sûr?\")'>supprimer</a>
                   <a href='index.php?action=edit_ch&id_ch=" . $ch['id_ch'] . "' class='btn'>Modifier Challenge</a>
                   <a href='index.php?action=ranking&id_ch=" . $ch['id_ch'] . "' class='btn'>Vote</a>

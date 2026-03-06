@@ -1,15 +1,14 @@
 <?php
 // app/views/submissions/list.php
-require_once '../../../config/db.php';
-
+require_once 'config/database.php';
 // Gestion de la recherche
 $search = $_GET['search'] ?? '';
 if ($search) {
-    $sql = "SELECT * FROM submissions WHERE id_ch = ? ORDER BY created_at DESC";
+    $sql = "SELECT * FROM submissions WHERE id_ch = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$search]);
 } else {
-    $sql = "SELECT * FROM submissions ORDER BY created_at DESC";
+    $sql = "SELECT * FROM submissions ";
     $stmt = $pdo->query($sql);
 }
 $submissions = $stmt->fetchAll();
@@ -41,7 +40,8 @@ $submissions = $stmt->fetchAll();
         <h2>Mes Participations</h2>
         
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <a href="add.php" class="add-btn">+ Nouvelle soumission</a>
+        <a href="add.php" class="add-btn">+ Nouvelle soumission</a>
+        <a href="index.php?action=participer" class="add-btn">+ Nouvelle soumission</a>
             
             <form class="search-form" method="GET">
                 <input type="number" name="search" placeholder="Rechercher par ID Challenge" value="<?php echo htmlspecialchars($search); ?>">
@@ -68,10 +68,10 @@ $submissions = $stmt->fetchAll();
                         <td><?php echo htmlspecialchars($sub['id_sub']); ?></td>
                         <td><strong>#<?php echo htmlspecialchars($sub['id_ch']); ?></strong></td>
                         <td><?php echo htmlspecialchars($sub['description']); ?></td>
-                        <td><a href="<?php echo htmlspecialchars($sub['sub_id']); ?>" target="_blank" class="link">Voir</a></td>
+                        <td><a href="<?php echo htmlspecialchars($sub['id_sub']); ?>" target="_blank" class="link">Voir</a></td>
                         <td>
-                            <a href="edit.php?id=<?php echo $sub['id_sub']; ?>" class="btn-edit">Modifier</a>
-                            <a href="delete.php?id=<?php echo $sub['id_sub']; ?>" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')">Supprimer</a>
+                        <a href="index.php?action=edit_sub&id=<?= $sub['id_sub']; ?>" class="btn-edit">Modifier</a>
+                        <a href="index.php?action=delete_sub&id=<?= $sub['id_sub']; ?>" class="btn-delete">Supprimer</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

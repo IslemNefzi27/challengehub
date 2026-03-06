@@ -2,38 +2,73 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
-    <link rel="stylesheet" href="public/style.css"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - ChallengeHub</title>
+    <link href="public/css/bootstrap.min.css" rel="stylesheet">
+  
+
 </head>
 <body>
-    <h1>Bienvenue, <?= htmlspecialchars($user['nom_utilisateur']); ?>!</h1>
-    
-    <p>Email: <?= htmlspecialchars($user['email_utilisateur']); ?></p>
-    <p>Identifiant: <?= htmlspecialchars($user['id_user']); ?></p>
 
-    <form action="index.php?action=logout" method="post">
-        <input type="submit" value="Deconnecter" class="btn">
-    </form>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card profile-card p-4 text-center">
+                <h3 class="fw-bold">Salut, <?= htmlspecialchars($user['nom_utilisateur']); ?>!</h3>
+                <p class="text-muted mb-1 small"><?= htmlspecialchars($user['email_utilisateur']); ?></p>
+                <span class="badge bg-light text-dark mb-4 border">ID: <?= htmlspecialchars($user['id_user']); ?></span>
 
-    <hr>
-    <h2>Modifier votre profile</h2>
-    <form action="index.php?action=profile" method="post">
-        <input type="text" name="nom" placeholder="Nouveau nom">
-        <input type="email" name="email" placeholder="Nouvelle adresse e-mail">
-        <input type="password" name="motdepasse" placeholder="Nouveau mot de passe">
-        <input type="submit" value="Modifier Profile" class="btn">
-    </form>
+                <form action="index.php?action=logout" method="post" class="mb-3">
+                    <button type="submit" class="btn btn-outline-danger btn-sm w-100 btn-custom">Se Déconnecter</button>
+                </form>
 
-    <h3>Vos Challenges</h3>
-    <?php if (!empty($mes_challenges)): ?>
-    <?php foreach ($mes_challenges as $ch): ?>
-        <div class='challenge'>
-            <h4><?= htmlspecialchars($ch['title']) ?></h4>
-            <a href="index.php?action=edit_ch&id=<?= $ch['id_ch'] ?>" class="btn">Modifier</a>
+                <hr>
+                
+                <h5 class="text-start mb-3">Modifier le profil</h5>
+                <form action="index.php?action=profile" method="post">
+                    <div class="mb-2">
+                        <input type="text" name="nom" class="form-control form-control-sm" placeholder="Nouveau nom">
+                    </div>
+                    <div class="mb-2">
+                        <input type="email" name="email" class="form-control form-control-sm" placeholder="Email">
+                    </div>
+                    <div class="mb-2">
+                        <input type="password" name="motdepasse" class="form-control form-control-sm" placeholder="Mot de passe">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm w-100 btn-custom">Enregistrer les modifications</button>
+                </form>
+            </div>
         </div>
-    <?php endforeach; ?>
-    <?php else: ?>
-    <p>Aucun challenge créé.</p>
-<?php endif; ?>
+
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold m-0">Mes Challenges</h2>
+                <a href="index.php?action=challenge" class="btn btn-dark btn-sm btn-custom">+ Nouveau</a>
+            </div>
+
+            <?php if (!empty($mes_challenges)): ?>
+                <div class="list-group shadow-sm">
+                    <?php foreach ($mes_challenges as $ch): ?>
+                        <div class="list-group-item d-flex justify-content-between align-items-center p-3 challenge-item border-0">
+                            <div>
+                                <h6 class="mb-0 fw-semibold text-dark"><?= htmlspecialchars($ch['title']) ?></h6>
+                                <small class="text-muted">Gérer ce défi</small>
+                            </div>
+                            <a href="index.php?action=edit_ch&id=<?= $ch['id_ch'] ?>" class="btn btn-warning btn-sm px-3 shadow-sm">
+                                 Modifier
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="alert alert-info text-center py-5 border-0 shadow-sm" style="border-radius: 15px;">
+                    <p class="mb-0">Vous n'avez pas encore créé de challenges.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
