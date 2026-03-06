@@ -1,8 +1,16 @@
 <?php
+<<<<<<< HEAD
 require_once 'config/database.php';
 require_once 'app/models/Comment.php';
 require_once 'app/controle/CommentController.php';
 
+=======
+require_once 'C:\wamp64\www\config\database.php';
+require_once 'models/Comment.php';
+require_once 'controllers/CommentController.php';
+
+session_start();
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['user_id'] = 1;
 }
@@ -35,6 +43,10 @@ if ($action === 'delete_comment' && isset($_GET['id_comm'])) {
     }
     exit();
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
 //  Modifier 
 if ($action === 'edit_comment' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_comm = intval($_POST['id_comm']);
@@ -58,7 +70,11 @@ $comments = $commentModel->getCommentsBySubmission($id_submission);
 <head>
     <meta charset="UTF-8">
     <title>Mon Système de Commentaires</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="app/view/style2.css">
+=======
+    <link rel="stylesheet" href="style2.css">
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
 </head>
 <body>
 
@@ -70,8 +86,13 @@ $comments = $commentModel->getCommentsBySubmission($id_submission);
     <?php endif; ?>
 
     <section>
+<<<<<<< HEAD
         <form action="index.php?action=post_comment" method="POST">
             <input type="hidden" name="id_s" value="<?= $id_submission ?>">
+=======
+        <form action="comment_view.php?action=post_comment" method="POST">
+            <input type="hidden" name="id_sub" value="<?= $id_submission ?>">
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
             <textarea name="content" rows="3" required placeholder="Écrivez un commentaire..."></textarea>
             <button type="submit">Publier</button>
         </form>
@@ -104,11 +125,16 @@ $comments = $commentModel->getCommentsBySubmission($id_submission);
                     <?= nl2br(htmlspecialchars($com['content'])) ?>
                 </div>
 
+<<<<<<< HEAD
                 <form action="index.php?action=edit_comment" method="POST" id="edit-form-<?= $com['id_comm'] ?>" style="display:none;">
                     <input type="hidden" name="id_comm" value="<?= $com['id_comm'] ?>">
                     
                     <input type="hidden" name="id_ch" value="<?= $id_ch ?? $_GET['id_ch'] ?>"> 
                     
+=======
+                <form action="comment_view.php?action=edit_comment" method="POST" id="edit-form-<?= $com['id_comm'] ?>" style="display:none;">
+                    <input type="hidden" name="id_comm" value="<?= $com['id_comm'] ?>">
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
                     <textarea name="content" required><?= htmlspecialchars($com['content']) ?></textarea>
                     <button type="submit" class="btn-save">Enregistrer</button>
                     <button type="button" class="btn-cancel" onclick="toggleEdit(<?= $com['id_comm'] ?>)">Annuler</button>
@@ -117,7 +143,11 @@ $comments = $commentModel->getCommentsBySubmission($id_submission);
                 <?php if ($com['id_user'] == $_SESSION['user_id']): ?>
                     <div class="comment-actions">
                         <button class="btn-edit" onclick="toggleEdit(<?= $com['id_comm'] ?>)">Modifier</button>
+<<<<<<< HEAD
                         <a href="index.php?action=delete_comment&id_comm=<?= $com['id_comm'] ?>" 
+=======
+                        <a href="comment_view.php?action=delete_comment&id_comm=<?= $com['id_comm'] ?>" 
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
                            class="btn-delete" 
                            onclick="return confirm('Supprimer ce commentaire ?')">Supprimer</a>
                     </div>
@@ -143,3 +173,4 @@ function toggleEdit(id) {
 </script>
 </body>
 </html>
+

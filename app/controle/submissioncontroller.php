@@ -5,10 +5,10 @@ require_once '../models/submission.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ID de l'utilisateur par défaut pour le test
-    $id_user = $_SESSION['user_id'] ?? 1;
+    $id_user = $_SESSION['id_user'] ?? 1;
 
     try {
-        if (addSubmission($pdo, $_POST['id_ch'], $id_user, $_POST['description'], $_POST['sub_id'])) {
+        if (addSubmission($pdo, $_POST['id_ch'], $id_user, $_POST['description'], $_POST['id_sub'])) {
             echo "<h2>Soumission réussie !</h2>";
             echo "<a href='../views/submissions/add.php'>Retour au formulaire</a>";
         }
@@ -16,4 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Erreur SQL : " . $e->getMessage());
     }
 }
+<<<<<<< HEAD
 ?>
+=======
+?>
+
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e

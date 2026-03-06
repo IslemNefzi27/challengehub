@@ -23,7 +23,11 @@
 <div class="form-container">
     <h2>Ma Participation</h2>
     
+<<<<<<< HEAD
     <form action="index.php?action=doInsertSubmission" method="POST">
+=======
+    <form action="../../controllers/submissioncontroller.php" method="POST">
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
         <label for="id_ch">ID du Challenge :</label>
         <input type="number" name="id_ch" id="id_ch" required placeholder="Ex: 1">
 
@@ -35,7 +39,11 @@
 
         <button type="submit">Envoyer la soumission</button>
     </form>
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
     <a href="list.php" class="footer-link">← Voir toutes les participations</a>
 </div>
 

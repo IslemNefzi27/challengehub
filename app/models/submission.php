@@ -11,3 +11,4 @@ function addSubmission($pdo, $id_ch, $id_user, $description, $sub_id) {
     ]);
 }
 ?>
+

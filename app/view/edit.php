@@ -7,7 +7,11 @@ $id = $_GET['id'] ?? null;
 if (!$id) die("ID manquant");
 
 // 2. Récupérer les données actuelles depuis la table
+<<<<<<< HEAD
 $stmt = $pdo->prepare ("SELECT * FROM submissions WHERE id_sub = ?");
+=======
+$stmt = $pdo->prepare("SELECT * FROM submissions WHERE id_sub = ?");
+>>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
 $stmt->execute([$id]);
 $sub = $stmt->fetch();
 
