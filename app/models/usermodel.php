@@ -51,6 +51,7 @@ class usermodel{
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     //modifier profile
+    
     public function supprimercompte($id){
         $stmt=$this->pdo->prepare("DELETE FROM user WHERE id_user = ?");
         return $stmt->execute([$id]);

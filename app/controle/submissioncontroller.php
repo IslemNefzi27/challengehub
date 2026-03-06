@@ -16,9 +16,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Erreur SQL : " . $e->getMessage());
     }
 }
-<<<<<<< HEAD
-?>
-=======
-?>
-
->>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e

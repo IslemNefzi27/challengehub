@@ -9,7 +9,7 @@
     <header>
         <h1>🏆 Mur des Célébrités</h1>
         
-        <?php if(isset($_SESSION['username'])): ?>
+        <?php if(isset($_SESSION['nom_utilisateur'])): ?>
             <p>Bonjour, <strong><?php echo $_SESSION['username']; ?></strong> 
                | <a href="index.php?action=logout">Déconnexion</a></p>
         <?php else: ?>
@@ -34,11 +34,11 @@
         <?php foreach ($ranks as $index => $row): ?>
         <tr>
             <td><strong>#<?php echo $index + 1; ?></strong></td>
-            <td><?php echo htmlspecialchars($row['username']); ?></td>
+            <td><?php echo htmlspecialchars($row['nom_utilisateur']); ?></td>
             <td><?php echo htmlspecialchars($row['description']); ?></td>
             <td><?php echo $row['total_votes']; ?> ⭐</td>
             <td>
-                <a href="index.php?action=vote&id=<?php echo $row['sub_id']; ?>" class="btn-vote">
+                <a href="index.php?action=vote&id=<?php echo $row['id_sub']; ?>" class="btn-vote">
                     Voter
                 </a>
             </td>

@@ -40,13 +40,14 @@ $submissions = $stmt->fetchAll();
         <h2>Mes Participations</h2>
         
         <div style="display: flex; justify-content: space-between; align-items: center;">
-        <a href="add.php" class="add-btn">+ Nouvelle soumission</a>
         <a href="index.php?action=participer" class="add-btn">+ Nouvelle soumission</a>
             
-            <form class="search-form" method="GET">
-                <input type="number" name="search" placeholder="Rechercher par ID Challenge" value="<?php echo htmlspecialchars($search); ?>">
-                <button type="submit">Rechercher</button>
-            </form>
+        <form class="search-form" method="GET" action="index.php">
+    <input type="hidden" name="action" value="lst">
+    
+    <input type="number" name="search" placeholder="Rechercher par ID Challenge" value="<?php echo htmlspecialchars($search); ?>">
+    <button type="submit">Rechercher</button>
+</form>
         </div>
         
         <?php if (empty($submissions)): ?>
@@ -68,7 +69,11 @@ $submissions = $stmt->fetchAll();
                         <td><?php echo htmlspecialchars($sub['id_sub']); ?></td>
                         <td><strong>#<?php echo htmlspecialchars($sub['id_ch']); ?></strong></td>
                         <td><?php echo htmlspecialchars($sub['description']); ?></td>
-                        <td><a href="<?php echo htmlspecialchars($sub['id_sub']); ?>" target="_blank" class="link">Voir</a></td>
+                        <td>
+                        <a href="<?= htmlspecialchars($sub['content_link'] ?? $sub['id_sub'] ?? '#'); ?>" target="_blank" class="link">
+                                                        Voir
+                                                    </a>
+                                                </td>
                         <td>
                         <a href="index.php?action=edit_sub&id=<?= $sub['id_sub']; ?>" class="btn-edit">Modifier</a>
                         <a href="index.php?action=delete_sub&id=<?= $sub['id_sub']; ?>" class="btn-delete">Supprimer</a>

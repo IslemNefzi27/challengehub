@@ -48,4 +48,29 @@ class challange {
         $res = $this->db->prepare($rqt);
         return $res->execute([$titre, $desc, $cat, $dat, $id]);
     }
+    public function getRanking() {
+        $sql = "SELECT 
+                    s.id_sub, 
+                    s.description, 
+                    u.nom_utilisateur, 
+                    COUNT(v.id_vote) as total_votes
+                FROM submissions s
+                JOIN user u ON s.id_user = u.id_user
+                LEFT JOIN votes v ON s.id_sub = v.id_s
+                GROUP BY s.id_sub
+                ORDER BY total_votes DESC";
+    
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function ajouterVote($id_ch, $id_user) {
+        $check = $this->db->prepare("SELECT * FROM votes WHERE id_ch = ? AND id_user = ?");
+        $check->execute([$id_ch, $id_user]);
+        
+        if ($check->rowCount() == 0) {
+            $stmt = $this->db->prepare("INSERT INTO votes (id_ch, id_user) VALUES (:id_ch, :id_user)");
+            return $stmt->execute([$id_ch, $id_user]);
+        }
+        return false;
+    }
 }

@@ -1,36 +1,4 @@
-<?php
-// app/views/submissions/edit.php
-require_once '../../../config/db.php';
 
-// 1. Récupérer l'ID de la soumission via l'URL
-$id = $_GET['id'] ?? null;
-if (!$id) die("ID manquant");
-
-// 2. Récupérer les données actuelles depuis la table
-<<<<<<< HEAD
-$stmt = $pdo->prepare ("SELECT * FROM submissions WHERE id_sub = ?");
-=======
-$stmt = $pdo->prepare("SELECT * FROM submissions WHERE id_sub = ?");
->>>>>>> 7175a58cd776a8cbd0bc687425b485baad26f08e
-$stmt->execute([$id]);
-$sub = $stmt->fetch();
-
-if (!$sub) die("Soumission non trouvée");
-
-// 3. Traitement du formulaire après clic sur "Mettre à jour"
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $description = $_POST['description'];
-    $content_link = $_POST['content_link']; // On récupère le nouveau lien
-
-    // Correction de la requête : On change la description et le lien, pas l'ID !
-    $sql = "UPDATE submissions SET description = ?, content_link = ? WHERE id_sub = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$description, $content_link, $id]);
-
-    header("Location: list.php");
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -56,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" name="description" maxlength="30" value="<?php echo htmlspecialchars($sub['description']); ?>" required>
             
             <label>Lien du projet (content_link) :</label>
-            <input type="url" name="content_link" value="<?php echo htmlspecialchars($sub['content_link']); ?>" required>
+            <input type="url" name="content_link" value="<?php echo htmlspecialchars($sub['content_link'] ?? ''); ?>" required>
             
             <button type="submit">Enregistrer les modifications</button>
         </form>

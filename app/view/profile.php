@@ -36,6 +36,17 @@
                         <input type="password" name="motdepasse" class="form-control form-control-sm" placeholder="Mot de passe">
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm w-100 btn-custom">Enregistrer les modifications</button>
+                    <button type="submit" class="btn btn-primary btn-sm w-100 btn-custom">Enregistrer les modifications</button>
+                        
+
+                        <hr class="my-4"> <div class="text-center">
+                            <p class="small text-muted">Zone de danger</p>
+                            <a href="index.php?action=delete_profile" 
+                            class="btn btn-outline-danger btn-sm w-100 shadow-sm" 
+                            onclick="return confirm('Attention ! Êtes-vous sûr de vouloir supprimer votre compte ? Toutes vos données seront perdues définitivement');">
+                            <i class="bi bi-trash"></i> Supprimer mon compte
+                            </a>
+                        </div>
                 </form>
             </div>
         </div>
